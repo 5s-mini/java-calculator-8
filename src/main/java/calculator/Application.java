@@ -11,6 +11,10 @@ public class Application {
     }
 
     private static int add(String str_input) {
-        return 0;
+        if (str_input == null || str_input.isEmpty()) {
+            return 0;
+        }
+
+
     }
 }
