@@ -22,10 +22,11 @@ public class Application {
 
         for (String t : tokens) {
             if (t == null) {
-                throw new IllegalArgumentException("빈 숫자 토큰이 존재합니다.");
+                throw new IllegalArgumentException("빈 숫자 항목이 존재합니다.");
             }
 
             int value = getValue(t);
+
             sum += value;
         }
 
@@ -39,6 +40,7 @@ public class Application {
         }
 
         int value;
+
         try {
             value = Integer.parseInt(trimmed);
         } catch (NumberFormatException e) {
@@ -48,10 +50,31 @@ public class Application {
         if (value < 0) {
             throw new IllegalArgumentException("음수는 허용되지 않습니다: " + trimmed);
         }
+
         return value;
     }
 
     private static String[] splitToTokens(String input) {
+        if (input.startsWith("//")) {
+            return splitWithCustomDelimiter(input);
+        }
 
+        return input.split("[,:]");
+    }
+
+    private static String[] splitWithCustomDelimiter(String input) {
+        int newlineIdx = input.indexOf("\n");
+        if (newlineIdx == -1) {
+            throw new IllegalArgumentException("잘못된 커스텀 구분자 형식입니다.");
+        }
+
+        String delim = input.substring(2, newlineIdx);
+        String numbersPart = input.substring(newlineIdx + 1);
+        if (delim.isEmpty()) {
+            throw new IllegalArgumentException("커스텀 구분자가 비어 있습니다.");
+        }
+
+        String regex = Pattern.quote(delim);
+        return numbersPart.split(regex);
     }
 }
