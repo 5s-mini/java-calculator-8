@@ -26,7 +26,6 @@ public class Application {
             }
 
             int value = getValue(t);
-
             sum += value;
         }
 
@@ -34,7 +33,22 @@ public class Application {
     }
 
     private static int getValue(String t) {
+        String trimmed = t.trim();
+        if (trimmed.isEmpty()) {
+            throw new IllegalArgumentException("빈 숫자 항목이 존재합니다.");
+        }
 
+        int value;
+        try {
+            value = Integer.parseInt(trimmed);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("숫자 형식이 아닙니다: " + trimmed);
+        }
+
+        if (value < 0) {
+            throw new IllegalArgumentException("음수는 허용되지 않습니다: " + trimmed);
+        }
+        return value;
     }
 
     private static String[] splitToTokens(String input) {
