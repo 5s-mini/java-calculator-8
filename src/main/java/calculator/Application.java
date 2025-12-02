@@ -10,8 +10,12 @@ public class Application {
         CalculateSum calculateSum = new CalculateSum();
         CalculateOutput output = new CalculateOutput();
 
-        String userInput = input.Input();
-        int result = calculateSum.Process(userInput);
-        output.Output(result);
+        try {
+            String userInput = input.input();
+            int result = calculateSum.process(userInput);
+            output.output(result);
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalArgumentException(exception.getMessage());
+        }
     }
 }
